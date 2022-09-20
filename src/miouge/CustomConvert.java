@@ -60,6 +60,8 @@ public class CustomConvert {
 		
 		try {
 			
+			Converter1 converter = new Converter1(); 
+			converter.convert(file);
 			
 			error = false;
 		}
