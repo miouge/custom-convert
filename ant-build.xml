@@ -8,6 +8,9 @@
     <property name="dir.jarfile" value="${dir.buildfile}/out"/>
     <path id="classpath">
 		<pathelement location="${dir.buildfile}/../modules/bin"/>
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
     </path>
     <target name="create_run_jar">
         <jar destfile="${dir.jarfile}/custom-convert.jar" filesetmanifest="mergewithoutmain">
