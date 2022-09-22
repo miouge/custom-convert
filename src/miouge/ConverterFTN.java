@@ -18,26 +18,52 @@ import com.opencsv.CSVWriter;
 
 import miouge.beans.FileItem;
 
-public class Converter1 {
-	
-	
+public class ConverterFTN {
+
 	class Operation {
 		
 		long epoch;
 		
 		String label;
 		
-		double amount;
+		double amount; // with . decimal point
+		
+		String buyer;
 		
 		String comment;
 		
-		String category;
+		String subCategory;
 		
 	}
 	
-	void presetCategory( Operation o ) {
+	void presetInfo( Operation o ) {
 		
-		if( o.label.equals( "VIR MENSUEL FTN COMMUN vers PEL") ) { o.comment = "versement PEL"; o.category = "MOUVEMENT_INTERNE"; }
+		if( o.label.equals( "VIR ENVEA")                        ) { o.subCategory = "SALAIRE"; return; }
+		if( o.label.equals( "VIR TRESORERIE BAYONNE MUNICIPAL") ) { o.subCategory = "SALAIRE"; return; }
+		if( o.label.equals( "VIR CAF DES PA")                   ) { o.subCategory = "ALLOC CAF"; return; }
+		
+		if( o.label.equals( "PRLV DIRECTION GENERALE DES FINA") ) { o.subCategory = "IMPOTS"; return; }
+		
+		if( o.label.equals( "PRLV FREE MOBILE")                 ) { o.subCategory = "TELECOMMUNICATION"; return; }
+		if( o.label.equals( "PRLV Free Telecom")                ) { o.subCategory = "TELECOMMUNICATION"; return; }
+
+		if( o.label.equals( "PRLV Cbp France")                  ) { o.subCategory = "LOGEMENT"; return; }
+		if( o.label.equals( "PRLV EDF clients particuliers")    ) { o.subCategory = "LOGEMENT"; return; }
+		if( o.label.equals( "PRLV ECHEANCE PRET")               ) { o.subCategory = "LOGEMENT"; return; }
+		
+		if( o.label.equals( "PRLV AUTOROUTES DU SUD DE LA FRA") ) { o.subCategory = "VOITURE"; return; }
+		if( o.label.equals( "PRLV Autoroutes du Sud de la Fra") ) { o.subCategory = "VOITURE"; return; }
+		
+		if( o.label.equals( "VIR GENERATION")                   ) { o.subCategory = "SANTE"; return; }
+		if( o.label.equals( "VIR C.P.A.M. DE BAYONNE")          ) { o.subCategory = "SANTE"; return; }
+		
+		if( o.label.equals( "PRLV ASG LARGENTE")                ) { o.subCategory = "SCOLARITE"; return; }
+		
+		if( o.label.equals( "VIR MENSUEL FTN COMMUN vers PEL")  ) { o.comment = "PEL enfants"; o.subCategory = "MOUVEMENT INTERNE"; return; }
+		
+		if( o.label.equals( "CB VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return; }
+
+		o.subCategory = "???";
 	}	
 	
 	void convert( String filename ) throws Exception {
@@ -72,7 +98,7 @@ public class Converter1 {
 		ArrayList<FileItem> files = new ArrayList<>();			
 		Tools.listInputFiles( workingDir, ".*\\.csv", files, false, true );
 
-		if( files.size() == 0 ) {			
+		if( files.size() == 0 ) {
 			return;
 		}
 		
@@ -85,18 +111,18 @@ public class Converter1 {
 	
 	   ZoneId zoneId = ZoneId.of( "Europe/Paris" );
 	   
-	   ArrayList<Operation> operations = new ArrayList<Operation>(); 	   
+	   ArrayList<Operation> operations = new ArrayList<Operation>();
 		
-		CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build(); // custom separator		
+		CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build(); // custom separator
 		try( CSVReader reader = new CSVReaderBuilder( isr ) // new FileReader( originalCSV.fullpathname ))
 				.withCSVParser(csvParser) // custom CSV
 				.build()
 		) {
 			List<String[]> lines = reader.readAll();
 			lines.forEach( fields -> {
-				
+
 				// 31/08/2022;31/08/2022;CARTE 20/07 CARREFOUR TARNOS TARNOS;-19,93;
-												
+
 				if( fields.length > 0 && fields[0].equals("Date opération") == true ) {
 
 					// skip header;
@@ -104,10 +130,9 @@ public class Converter1 {
 				}
 				
 				String timestamp = fields[0];
-				String label = fields[2];				
-								
+				String label = fields[2];
+
 				Operation operation = new Operation();
-				
 				String amountStr = "0";
 				
 				if( fields[3].length() > 0 ) {
@@ -121,9 +146,9 @@ public class Converter1 {
 				
 				// process CB
 				
-				System.out.format( "[%s]\n", label );				
+				System.out.format( "[%s]\n", label );
 				
-				int pos = label.indexOf("CARTE", 0 );				
+				int pos = label.indexOf("CARTE", 0 );
 				if( pos == 0 ) {
 					
 					String dateCB = label.substring(6, 6+5);
@@ -132,7 +157,7 @@ public class Converter1 {
 					
 					label = "CARTE" + label.substring(11, label.length());
 				}
-																	
+
 				// STD_SLASH_FULL_FR("dd/MM/yyyy HH:mm:ss"),
 				operation.epoch = EpochTool.convertToEpoch( timestamp + " 00:00:00", EpochTool.Format.STD_SLASH_FULL_FR, zoneId );
 					
@@ -142,10 +167,10 @@ public class Converter1 {
 					try {
 						operation.epoch = EpochTool.add(operation.epoch, -1, null, null, null, null, null, zoneId, false );
 					} catch (Exception e) {
-						e.printStackTrace();					
-					}					
+						e.printStackTrace();
+					}
 				}
-								
+
 				System.out.format( "%s - %s \n", 
 						EpochTool.convertToString( operation.epoch, EpochTool.Format.STD_DASH_FULL ),
 						label
@@ -159,9 +184,8 @@ public class Converter1 {
 		
 		System.out.format( "operations nb =%d\n", operations.size() );
 		
-		// sort operation by date ascending
-		
-		// order span results using their spanType and the calibration span order type
+		// sort operations (oldest at bottom) ...
+
 		operations.sort(
 			( Operation o1, Operation o2 ) -> {
 				
@@ -177,47 +201,45 @@ public class Converter1 {
 				return 0;
 			}
 		);
-		
-		// sorted operations ...
-		
-		
-		for( Operation op : operations ) {
-						
-			System.out.format( "%s|%s|%f\n", EpochTool.convertToString( op.epoch, EpochTool.Format.STD_SLASH_FULL_FR ), op.label, op.amount );
-		}
-				
-		// TODO : preset category for well known operations
-		
-		for( Operation op : operations ) {
-			
-			presetCategory( op );
-		}
-		
-		// output modified csv
-		
-		String outputCSV  = originalCSV.folderOnly + "\\output.csv"; 
-		
-		List<String[]> stringArray = new ArrayList<String[]>();			
+
+//		for( Operation op : operations ) {
+//
+//			System.out.format( "%s|%s|%f\n", EpochTool.convertToString( op.epoch, EpochTool.Format.STD_SLASH_FULL_FR ), op.label, op.amount );
+//		}
+
+		// preset information for well known operations
 
 		for( Operation op : operations ) {
-			
-			String[] array = new String[5];
-			stringArray.add(array);
-			
-			array[0] = EpochTool.convertToString( op.epoch, EpochTool.Format.STD_SLASH_DAY_FR );
-			array[1] = op.label;
-			array[2] = op.comment;
-			array[3] = Double.toString(op.amount);
-			array[4] = op.category;
+
+			presetInfo( op );
 		}
-		
-	     CSVWriter writer = new CSVWriter(new FileWriter(outputCSV), ';', '\u0000', '\\', "\n" );
-	     
-	     writer.writeAll(stringArray);
-	     writer.close();
-	     
-	     System.out.println( String.format( "output CSV flush for %d operations : OK", operations.size()));	
-		
+
+		// output modified csv
+
+		String outputCSV  = originalCSV.folderOnly + "\\output.csv";
+
+		List<String[]> stringArray = new ArrayList<String[]>();
+
+		for( Operation o : operations ) {
+
+			String[] array = new String[6];
+			stringArray.add(array);
+
+			array[0] = EpochTool.convertToString( o.epoch, EpochTool.Format.STD_SLASH_DAY_FR );
+			array[1] = o.label;
+			array[2] = Double.toString(o.amount);
+			array[3] = o.buyer;
+			array[4] = o.comment;
+			array[5] = o.subCategory;
+		}
+
+		CSVWriter writer = new CSVWriter(new FileWriter(outputCSV), ';', '\u0000', '\\', "\n" );
+
+		writer.writeAll(stringArray);
+		writer.close();
+
+		System.out.println( String.format( "output CSV flushed for %d operations : OK", operations.size()));
+
 		return;
 	}
 }

@@ -60,7 +60,7 @@ public class CustomConvert {
 		
 		try {
 			
-			Converter1 converter = new Converter1(); 
+			ConverterFTN converter = new ConverterFTN(); 
 			converter.convert(file);
 			
 			error = false;
