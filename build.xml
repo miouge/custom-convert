@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="Create Runnable custom-convert.jar" default="create_run_jar" basedir="." >
+	<description>
+		sample
+	</description>
+
+	<!-- set global properties for this build -->
+	<property name="dir.buildfile" value="."/>
+	<property name="dir.workspace" value="${dir.buildfile}/.."/>
+	<property name="dir.jarfile"   value="${dir.buildfile}/out"/>
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property name="out" location="out"/>
+
+	<path id="classpath">
+		<fileset dir="C:/Java/jre8/lib"/>
+		<fileset dir="C:/Java/jre8/lib/ext"/>
+		<pathelement location="${dir.workspace}/module/bin"/>
+	</path>
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp/>
+		<!-- Create the bin directory structure used by compile -->
+		<mkdir dir="${bin}"/>
+		<mkdir dir="${dir.jarfile}"/>
+	</target>
+
+	<target name="modules" depends="init" description="compile the source">
+		<!-- Compile the Java code from ${src} into ${bin} -->
+		<javac srcdir="${dir.workspace}/modules/src" destdir="${bin}" includeantruntime="false">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	
+	<target name="compile" depends="modules" description="compile the source">
+		<!-- Compile the Java code from ${src} into ${bin} -->
+		<javac srcdir="${src}" destdir="${bin}" includeantruntime="false">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<target name="create_run_jar" depends="compile" description="generate the outribution">
+		<!-- Create the outribution directory -->
+		<mkdir dir="${out}"/>
+		<!-- Put everything in ${bin} into the MyProject-${DSTAMP}.jar file -->
+		<jar jarfile="${out}/custom-convert.jar" basedir="${bin}">
+			<manifest>
+				<attribute name="Main-Class" value="miouge.CustomConvert"/>
+				<attribute name="Class-Path" value="."/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${bin} and ${out} directory trees -->
+		<delete dir="${bin}"/>
+		<delete dir="${out}"/>
+	</target>
+
+</project>
