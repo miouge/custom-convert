@@ -1,61 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project name="Create Runnable custom-convert.jar" default="create_run_jar" basedir="." >
-	<description>
-		sample
-	</description>
+<!DOCTYPE xml>
+<project name="Create custom-convert.jar" default="create_jar" basedir="." >
 
 	<!-- set global properties for this build -->
 	<property name="dir.buildfile" value="."/>
 	<property name="dir.workspace" value="${dir.buildfile}/.."/>
-	<property name="dir.jarfile"   value="${dir.buildfile}/out"/>
-	<property name="src" location="src"/>
-	<property name="bin" location="bin"/>
-	<property name="out" location="out"/>
-
+	<property name="dir.out" location="${dir.buildfile}/out"/>
+	<property name="dir.src" location="${dir.buildfile}/src"/>
+	<property name="dir.bin" location="${dir.buildfile}/bin"/>
+	
 	<path id="classpath">
+		<!-- where to find the jre and additionnal jar -->
 		<fileset dir="C:/Java/jre8/lib"/>
-		<fileset dir="C:/Java/jre8/lib/ext"/>
-		<pathelement location="${dir.workspace}/module/bin"/>
+		<fileset dir="${dir.buildfile}/../modules/out"/>
+		<!--<pathelement location="${dir.buildfile}/../module/bin"/>-->
 	</path>
 
 	<target name="init">
 		<!-- Create the time stamp -->
 		<tstamp/>
-		<!-- Create the bin directory structure used by compile -->
-		<mkdir dir="${bin}"/>
-		<mkdir dir="${dir.jarfile}"/>
+		<!-- Create the bin and out directory structure used by compile -->
+		<mkdir dir="${dir.bin}"/>
+		<mkdir dir="${dir.out}"/>
 	</target>
 
-	<target name="modules" depends="init" description="compile the source">
-		<!-- Compile the Java code from ${src} into ${bin} -->
-		<javac srcdir="${dir.workspace}/modules/src" destdir="${bin}" includeantruntime="false">
-			<classpath refid="classpath"/>
-		</javac>
+	<target name="modules" depends="init" description="compile the dependencies">	
+	<ant antfile="${dir.buildfile}/../modules/build.xml" target="create_jar" inheritAll="false" useNativeBasedir="true" />
+		<copy todir="${dir.out}" overwrite="true">
+		  <fileset dir="${dir.buildfile}/../modules/out"/>
+		</copy>
 	</target>
 	
 	<target name="compile" depends="modules" description="compile the source">
-		<!-- Compile the Java code from ${src} into ${bin} -->
-		<javac srcdir="${src}" destdir="${bin}" includeantruntime="false">
+		<!-- Compile the Java code from ${dir.src} to ${dir.bin} -->
+		<javac srcdir="${dir.src}" destdir="${dir.bin}" includeantruntime="false" encoding="UTF-8">
 			<classpath refid="classpath"/>
 		</javac>
 	</target>
 
-	<target name="create_run_jar" depends="compile" description="generate the outribution">
-		<!-- Create the outribution directory -->
-		<mkdir dir="${out}"/>
-		<!-- Put everything in ${bin} into the MyProject-${DSTAMP}.jar file -->
-		<jar jarfile="${out}/custom-convert.jar" basedir="${bin}">
+	<target name="create_jar" depends="compile" >
+		<!-- Put everything in ${dir.bin} into the MyProject-${DSTAMP}.jar file -->
+		<jar jarfile="${dir.out}/custom-convert.jar" basedir="${dir.bin}">
 			<manifest>
 				<attribute name="Main-Class" value="miouge.CustomConvert"/>
-				<attribute name="Class-Path" value="."/>
+				<!--<attribute name="Class-Path" value="."/>-->
+				<attribute name="Class-Path" value="modules.jar" />
 			</manifest>
+			<!-- <fileset dir="${dir.buildfile}/../module/bin"/> -->
 		</jar>
 	</target>
 
-	<target name="clean" description="clean up">
-		<!-- Delete the ${bin} and ${out} directory trees -->
-		<delete dir="${bin}"/>
-		<delete dir="${out}"/>
+	<target name="clean" >
+		<!-- Delete the ${dir.bin} and ${dir.out} directory trees -->
+		<delete dir="${dir.bin}"/>
+		<!--<delete dir="${dir.out}"/>-->
+		<ant antfile="${dir.buildfile}/../modules/build.xml" target="clean" inheritAll="false" useNativeBasedir="true" />		
 	</target>
 
 </project>
