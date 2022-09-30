@@ -12,10 +12,10 @@
 	<path id="classpath">
 		<!-- where to find the jre and additionnal jar -->
 		<fileset dir="C:/Java/jre8/lib"/>
+		<fileset dir="C:/Java/jre8/lib/ext"/>
 		<fileset dir="${dir.buildfile}/../modules/out"/>
-		<!--<pathelement location="${dir.buildfile}/../module/bin"/>-->
 	</path>
-
+	
 	<target name="init">
 		<!-- Create the time stamp -->
 		<tstamp/>
@@ -25,10 +25,13 @@
 	</target>
 
 	<target name="modules" depends="init" description="compile the dependencies">	
-	<ant antfile="${dir.buildfile}/../modules/build.xml" target="create_jar" inheritAll="false" useNativeBasedir="true" />
+		<ant antfile="${dir.buildfile}/../modules/build.xml" target="create_jar" inheritAll="false" useNativeBasedir="true" />
+		<copy overwrite="true" file="${dir.buildfile}/../modules/out/modules.jar" todir="${dir.out}"/>  		
+		<!--
 		<copy todir="${dir.out}" overwrite="true">
 		  <fileset dir="${dir.buildfile}/../modules/out"/>
 		</copy>
+		-->
 	</target>
 	
 	<target name="compile" depends="modules" description="compile the source">
@@ -40,13 +43,15 @@
 
 	<target name="create_jar" depends="compile" >
 		<!-- Put everything in ${dir.bin} into the MyProject-${DSTAMP}.jar file -->
-		<jar jarfile="${dir.out}/custom-convert.jar" basedir="${dir.bin}">
+		<jar destfile="${dir.out}/custom-convert.jar" filesetmanifest="mergewithoutmain">
 			<manifest>
 				<attribute name="Main-Class" value="miouge.CustomConvert"/>
+				<attribute name="Class-Path" value="."/>
 				<!--<attribute name="Class-Path" value="."/>-->
-				<attribute name="Class-Path" value="modules.jar" />
+				<!--<attribute name="Class-Path" value="modules.jar" />-->
 			</manifest>
-			<!-- <fileset dir="${dir.buildfile}/../module/bin"/> -->
+			<fileset dir="${dir.buildfile}/bin"/>
+			<fileset dir="${dir.buildfile}/../modules/bin"/>
 		</jar>
 	</target>
 
