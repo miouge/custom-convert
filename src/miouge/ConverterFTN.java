@@ -61,7 +61,7 @@ public class ConverterFTN {
 		
 		if( o.label.equals( "VIR MENSUEL FTN COMMUN vers PEL")  ) { o.comment = "PEL enfants"; o.subCategory = "MOUVEMENT INTERNE"; return; }
 		
-		if( o.label.equals( "CB VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return; }
+		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return; }
 
 		o.subCategory = "???";
 	}	
@@ -146,13 +146,13 @@ public class ConverterFTN {
 				
 				// process CB
 				
-				System.out.format( "[%s]\n", label );
+				// System.out.format( "[%s]\n", label );
 				
 				int pos = label.indexOf("CARTE", 0 );
 				if( pos == 0 ) {
 					
 					String dateCB = label.substring(6, 6+5);
-					System.out.format( "date CB [%s]", dateCB );
+					// System.out.format( "date CB [%s]", dateCB );
 					timestamp = dateCB + timestamp.substring(5, 10); // date of CB + year of operation
 					
 					label = "CARTE" + label.substring(11, label.length());
@@ -227,7 +227,7 @@ public class ConverterFTN {
 
 			array[0] = EpochTool.convertToString( o.epoch, EpochTool.Format.STD_SLASH_DAY_FR );
 			array[1] = o.label;
-			array[2] = Double.toString(o.amount);
+			array[2] = Double.toString(o.amount).replace('.', ',' );
 			array[3] = o.buyer;
 			array[4] = o.comment;
 			array[5] = o.subCategory;
