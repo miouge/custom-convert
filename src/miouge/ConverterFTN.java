@@ -36,34 +36,41 @@ public class ConverterFTN {
 		
 	}
 	
-	void presetInfo( Operation o ) {
+	int presetInfo( Operation o ) {
 		
-		if( o.label.equals( "VIR ENVEA")                        ) { o.subCategory = "SALAIRE"; return; }
-		if( o.label.equals( "VIR TRESORERIE BAYONNE MUNICIPAL") ) { o.subCategory = "SALAIRE"; return; }
-		if( o.label.equals( "VIR CAF DES PA")                   ) { o.subCategory = "ALLOC CAF"; return; }
+		if( o.label.equals( "VIR ENVEA")                        ) { o.subCategory = "SALAIRE"; return 0; }
+		if( o.label.equals( "VIR TRESORERIE BAYONNE MUNICIPAL") ) { o.subCategory = "SALAIRE"; return 0; }
+		if( o.label.equals( "VIR CAF DES PA")                   ) { o.subCategory = "ALLOC CAF"; return 0; }
 		
-		if( o.label.equals( "PRLV DIRECTION GENERALE DES FINA") ) { o.subCategory = "IMPOTS"; return; }
+		if( o.label.equals( "PRLV DIRECTION GENERALE DES FINA") ) { o.subCategory = "IMPOTS"; return 0; }
 		
-		if( o.label.equals( "PRLV FREE MOBILE")                 ) { o.subCategory = "TELECOMMUNICATION"; return; }
-		if( o.label.equals( "PRLV Free Telecom")                ) { o.subCategory = "TELECOMMUNICATION"; return; }
+		if( o.label.equals( "PRLV FREE MOBILE")                 ) { o.subCategory = "TELECOMMUNICATION"; return 0; }
+		if( o.label.equals( "PRLV Free Telecom")                ) { o.subCategory = "TELECOMMUNICATION"; return 0; }
 
-		if( o.label.equals( "PRLV Cbp France")                  ) { o.subCategory = "LOGEMENT"; return; }
-		if( o.label.equals( "PRLV EDF clients particuliers")    ) { o.subCategory = "LOGEMENT"; return; }
-		if( o.label.equals( "PRLV ECHEANCE PRET")               ) { o.subCategory = "LOGEMENT"; return; }
+		if( o.label.equals( "PRLV Cbp France")                  ) { o.subCategory = "LOGEMENT"; return 0; }
+		if( o.label.equals( "PRLV EDF clients particuliers")    ) { o.subCategory = "LOGEMENT"; return 0; }
+		if( o.label.equals( "PRLV ECHEANCE PRET")               ) { o.subCategory = "LOGEMENT"; return 0; }
+		if( o.label.equals( "VIR MENSUEL REMB CREDIT PTZ")      ) { o.subCategory = "LOGEMENT"; return 0; }
 		
-		if( o.label.equals( "PRLV AUTOROUTES DU SUD DE LA FRA") ) { o.subCategory = "VOITURE"; return; }
-		if( o.label.equals( "PRLV Autoroutes du Sud de la Fra") ) { o.subCategory = "VOITURE"; return; }
+		if( o.label.equals( "PRLV AUTOROUTES DU SUD DE LA FRA") ) { o.subCategory = "VOITURE"; return 0; }
+		if( o.label.equals( "PRLV Autoroutes du Sud de la Fra") ) { o.subCategory = "VOITURE"; return 0; }
 		
-		if( o.label.equals( "VIR GENERATION")                   ) { o.subCategory = "SANTE"; return; }
-		if( o.label.equals( "VIR C.P.A.M. DE BAYONNE")          ) { o.subCategory = "SANTE"; return; }
+		if( o.label.equals( "VIR GENERATION")                   ) { o.comment = "remboursement"; o.subCategory = "SANTE"; return 0; }
+		if( o.label.equals( "VIR C.P.A.M. DE BAYONNE")          ) { o.comment = "remboursement"; o.subCategory = "SANTE"; return 0; }
 		
-		if( o.label.equals( "PRLV ASG LARGENTE")                ) { o.subCategory = "SCOLARITE"; return; }
+		if( o.label.equals( "PRLV ASG LARGENTE")                ) { o.comment = "prélèvement mensuel"; o.subCategory = "SCOLARITE"; return 0; }
 		
-		if( o.label.equals( "VIR MENSUEL FTN COMMUN vers PEL")  ) { o.comment = "PEL enfants"; o.subCategory = "MOUVEMENT INTERNE"; return; }
+		if( o.label.equals( "VIR MENSUEL FTN COMMUN vers PEL")  ) { o.comment = "PEL enfants"; o.subCategory = "MOUVEMENT INTERNE"; return 0; }
 		
-		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return; }
+		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.equals( "CARTE SARL MIRENTXU TARNOS")          ) { o.comment = "légume tarnos";      o.subCategory = "ALIMENTATION"; return 0; }
+		
+		if( o.label.equals( "CARTE CARREFOUR TARNOS TARNOS")       ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
 
 		o.subCategory = "???";
+		return 1;
 	}	
 	
 	void convert( String filename ) throws Exception {
@@ -209,17 +216,21 @@ public class ConverterFTN {
 
 		// preset information for well known operations
 
+		int unknownCount = 0;
+		
 		for( Operation op : operations ) {
 
-			presetInfo( op );
+			unknownCount += presetInfo( op );
 		}
-
+		
 		// output modified csv
 
 		String outputCSV  = originalCSV.folderOnly + "\\output.csv";
 
 		List<String[]> stringArray = new ArrayList<String[]>();
 
+		
+		
 		for( Operation o : operations ) {
 
 			String[] array = new String[6];
@@ -238,8 +249,9 @@ public class ConverterFTN {
 		writer.writeAll(stringArray);
 		writer.close();
 
-		System.out.println( String.format( "output CSV flushed for %d operations : OK", operations.size()));
-
+		System.out.println( String.format( "Unknown operation count =%d", unknownCount ));
+		System.out.println( String.format( "Output CSV flushed for %d operations : OK", operations.size()));
+		
 		return;
 	}
 }
