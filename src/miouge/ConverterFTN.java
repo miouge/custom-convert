@@ -140,6 +140,8 @@ public class ConverterFTN {
 				String label = fields[2];
 
 				Operation operation = new Operation();
+				
+				// amount : two possible column (fist debt, second credit)
 				String amountStr = "0";
 				
 				if( fields[3].length() > 0 ) {
