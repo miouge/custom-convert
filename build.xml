@@ -8,14 +8,14 @@
 	<property name="dir.out" location="${dir.buildfile}/out"/>
 	<property name="dir.src" location="${dir.buildfile}/src"/>
 	<property name="dir.bin" location="${dir.buildfile}/bin"/>
-	
+
 	<path id="classpath">
 		<!-- where to find the jre and additionnal jar -->
 		<fileset dir="C:/Java/jre8/lib"/>
 		<fileset dir="C:/Java/jre8/lib/ext"/>
 		<fileset dir="${dir.buildfile}/../modules/out"/>
 	</path>
-	
+
 	<target name="init">
 		<!-- Create the time stamp -->
 		<tstamp/>
@@ -33,7 +33,7 @@
 		</copy>
 		-->
 	</target>
-	
+
 	<target name="compile" depends="modules" description="compile the source">
 		<!-- Compile the Java code from ${dir.src} to ${dir.bin} -->
 		<javac srcdir="${dir.src}" destdir="${dir.bin}" includeantruntime="false" encoding="UTF-8">
