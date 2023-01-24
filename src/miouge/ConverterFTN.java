@@ -52,8 +52,16 @@ public class ConverterFTN {
 		if( o.label.equals( "PRLV ECHEANCE PRET")               ) { o.subCategory = "LOGEMENT"; return 0; }
 		if( o.label.equals( "VIR MENSUEL REMB CREDIT PTZ")      ) { o.subCategory = "LOGEMENT"; return 0; }
 		
-		if( o.label.equals( "PRLV AUTOROUTES DU SUD DE LA FRA") ) { o.subCategory = "VOITURE"; return 0; }
-		if( o.label.equals( "PRLV Autoroutes du Sud de la Fra") ) { o.subCategory = "VOITURE"; return 0; }
+		if( o.label.equals( "PRLV TRES." )) {
+			if( -20.0 < o.amount && o.amount < -60.0 ) {
+				o.subCategory = "LOGEMENT";
+				o.comment = "CAPB - eau";
+				return 0;
+			}
+		}
+		
+		if( o.label.equals( "PRLV AUTOROUTES DU SUD DE LA FRA") ) { o.subCategory = "VEHICULE"; return 0; }
+		if( o.label.equals( "PRLV Autoroutes du Sud de la Fra") ) { o.subCategory = "VEHICULE"; return 0; }
 		
 		if( o.label.equals( "VIR GENERATION")                   ) { o.comment = "remboursement"; o.subCategory = "SANTE"; return 0; }
 		if( o.label.equals( "VIR C.P.A.M. DE BAYONNE")          ) { o.comment = "remboursement"; o.subCategory = "SANTE"; return 0; }
@@ -251,8 +259,10 @@ public class ConverterFTN {
 		writer.writeAll(stringArray);
 		writer.close();
 
-		System.out.println( String.format( "Unknown operation count =%d", unknownCount ));
-		System.out.println( String.format( "Output CSV flushed for %d operations : OK", operations.size()));
+		System.out.println( String.format( "--------------------------------------" ));
+		System.out.println( String.format( "Operations with unknown category : %d", unknownCount ));
+		System.out.println( String.format( "CSV flushed OK, operations lines : %d", operations.size()));
+		System.out.println( String.format( "--------------------------------------" ));
 		
 		return;
 	}
