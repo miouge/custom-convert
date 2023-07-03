@@ -40,6 +40,7 @@ public class ConverterFTN {
 		
 		if( o.label.equals( "VIR ENVEA")                        ) { o.subCategory = "SALAIRE"; return 0; }
 		if( o.label.equals( "VIR TRESORERIE BAYONNE MUNICIPAL") ) { o.subCategory = "SALAIRE"; return 0; }
+		if( o.label.equals( "VIR SGC BAYONNE")                  ) { o.subCategory = "SALAIRE"; return 0; }
 		if( o.label.equals( "VIR CAF DES PA")                   ) { o.subCategory = "ALLOC CAF"; return 0; }
 		
 		if( o.label.equals( "PRLV DIRECTION GENERALE DES FINA") ) { o.subCategory = "IMPOTS"; return 0; }
@@ -74,6 +75,8 @@ public class ConverterFTN {
 		if( o.label.equals( "CARTE SARL MIRENTXU TARNOS")          ) { o.comment = "légume tarnos";      o.subCategory = "ALIMENTATION"; return 0; }
 		
 		if( o.label.equals( "CARTE CARREFOUR TARNOS TARNOS")       ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.equals( "CARTE PICARD 0694 BOUCAU")            ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.equals( "CARTE OTSOKOP BAYONNE")               ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
 		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
 		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
 
