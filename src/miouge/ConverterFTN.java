@@ -48,12 +48,14 @@ public class ConverterFTN {
 		if( o.label.equals( "PRLV FREE MOBILE")                 ) { o.subCategory = "TELECOMMUNICATION"; return 0; }
 		if( o.label.equals( "PRLV Free Telecom")                ) { o.subCategory = "TELECOMMUNICATION"; return 0; }
 
-		if( o.label.equals( "PRLV Cbp France")                  ) { o.subCategory = "LOGEMENT"; return 0; }
+		if( o.label.equals( "PRLV Kereis France")                  ) { o.subCategory = "LOGEMENT"; return 0; }
+		if( o.label.equals( "PRLV Cbp France devient Kereis F")    ) { o.subCategory = "LOGEMENT"; return 0; }
+				
 		if( o.label.equals( "PRLV EDF clients particuliers")    ) { o.subCategory = "LOGEMENT"; return 0; }
 		if( o.label.equals( "PRLV ECHEANCE PRET")               ) { o.subCategory = "LOGEMENT"; return 0; }
 		if( o.label.equals( "VIR MENSUEL REMB CREDIT PTZ")      ) { o.subCategory = "LOGEMENT"; return 0; }
 		
-		if( o.label.equals( "PRLV TRES." )) {
+		if( o.label.equals( "PRLV TRES." ) || o.label.equals( "PRLV SGC" ) ) {
 			if( -20.0 < o.amount && o.amount < -60.0 ) {
 				o.subCategory = "LOGEMENT";
 				o.comment = "CAPB - eau";
@@ -74,11 +76,14 @@ public class ConverterFTN {
 		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
 		if( o.label.equals( "CARTE SARL MIRENTXU TARNOS")          ) { o.comment = "légume tarnos";      o.subCategory = "ALIMENTATION"; return 0; }
 		
-		if( o.label.equals( "CARTE CARREFOUR TARNOS TARNOS")       ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
-		if( o.label.equals( "CARTE PICARD 0694 BOUCAU")            ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
-		if( o.label.equals( "CARTE OTSOKOP BAYONNE")               ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
-		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
-		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.equals( "CARTE CARREFOUR TARNOS TARNOS")        ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.equals( "CARTE PICARD 0694 BOUCAU")             ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.contains("CARTE") && o.label.contains("OTSOKOP")){                                   o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")        ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.equals( "CARTE MA BOUTIQUE D'AS TARNOS")        ) { o.comment = "magasin chinois de TARNOS"; o.subCategory = "ALIMENTATION"; return 0; }
+		
+		if( o.label.contains("CARTE") && o.label.contains("DAC")    ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
+		if( o.label.contains("CARTE") && o.label.contains("VL")     ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
 
 		o.subCategory = "???";
 		return 1;
