@@ -55,8 +55,8 @@ public class ConverterFTN {
 		if( o.label.equals( "PRLV ECHEANCE PRET")               ) { o.subCategory = "LOGEMENT"; return 0; }
 		if( o.label.equals( "VIR MENSUEL REMB CREDIT PTZ")      ) { o.subCategory = "LOGEMENT"; return 0; }
 		
-		if( o.label.equals( "PRLV TRES." ) || o.label.equals( "PRLV SGC" ) ) {
-			if( -20.0 < o.amount && o.amount < -60.0 ) {
+		if( o.label.equals( "PRLV SGC" ) ) {
+			if( -60.0 < o.amount && o.amount < -20.0 ) {
 				o.subCategory = "LOGEMENT";
 				o.comment = "CAPB - eau";
 				return 0;
@@ -81,6 +81,8 @@ public class ConverterFTN {
 		if( o.label.contains("CARTE") && o.label.contains("OTSOKOP")){                                   o.subCategory = "ALIMENTATION"; return 0; }
 		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")        ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
 		if( o.label.equals( "CARTE MA BOUTIQUE D'AS TARNOS")        ) { o.comment = "magasin chinois de TARNOS"; o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.equals( "CARTE CARREFOUR TARNOS TARNOS")        ) {                                   o.subCategory = "ALIMENTATION"; return 0; }		
+		if( o.label.equals( "CARTE PICARD")        ) {                                   o.subCategory = "ALIMENTATION"; return 0; }		
 		
 		if( o.label.contains("CARTE") && o.label.contains("DAC")    ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
 		if( o.label.contains("CARTE") && o.label.contains("VL")     ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }

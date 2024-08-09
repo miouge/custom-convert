@@ -10,6 +10,9 @@ import org.apache.commons.cli.ParseException;
 
 public class CustomConvert {
 
+	// exemple de lancement 
+	// java -jar custom-convert.jar -f HistoriqueOperations_014797857042.zip
+	
 	public static void main(String[] args) {
 		
 		boolean error = true;
