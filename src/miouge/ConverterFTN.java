@@ -66,8 +66,14 @@ public class ConverterFTN {
 		if( o.label.equals( "PRLV AUTOROUTES DU SUD DE LA FRA") ) { o.subCategory = "VEHICULE"; return 0; }
 		if( o.label.equals( "PRLV Autoroutes du Sud de la Fra") ) { o.subCategory = "VEHICULE"; return 0; }
 		
-		if( o.label.equals( "VIR GENERATION")                   ) { o.comment = "remboursement"; o.subCategory = "SANTE"; return 0; }
-		if( o.label.equals( "VIR C.P.A.M. DE BAYONNE")          ) { o.comment = "remboursement"; o.subCategory = "SANTE"; return 0; }
+		if( o.label.equals( "VIR GENERATION")                   ) { o.comment = "remboursement"; o.subCategory = "SANTE"; return 0; }		
+		if( o.label.contains( "CPAM" ) ) {
+			if( o.amount > 0.0 ) {
+				o.subCategory = "SANTE";
+				o.comment = "remboursement";
+				return 0;
+			}
+		}
 		
 		if( o.label.equals( "PRLV ASG LARGENTE")                ) { o.comment = "prélèvement mensuel"; o.subCategory = "SCOLARITE"; return 0; }
 		
@@ -82,7 +88,8 @@ public class ConverterFTN {
 		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")        ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
 		if( o.label.equals( "CARTE MA BOUTIQUE D'AS TARNOS")        ) { o.comment = "magasin chinois de TARNOS"; o.subCategory = "ALIMENTATION"; return 0; }
 		if( o.label.equals( "CARTE CARREFOUR TARNOS TARNOS")        ) {                                   o.subCategory = "ALIMENTATION"; return 0; }		
-		if( o.label.equals( "CARTE PICARD")        ) {                                   o.subCategory = "ALIMENTATION"; return 0; }		
+		if( o.label.equals( "CARTE PICARD")                         ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.contains("CARTE") && o.label.contains("EAU VIVE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
 		
 		if( o.label.contains("CARTE") && o.label.contains("DAC")    ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
 		if( o.label.contains("CARTE") && o.label.contains("VL")     ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
