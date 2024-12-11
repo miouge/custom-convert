@@ -63,11 +63,13 @@ public class ConverterFTN {
 			}
 		}
 		
+		if( o.label.contains( "VIR" ) && o.label.contains( "epargne" ) ) { o.comment = "epargne"; o.subCategory = "MOUVEMENT INTERNE"; return 0; }
+		
 		if( o.label.equals( "PRLV AUTOROUTES DU SUD DE LA FRA") ) { o.subCategory = "VEHICULE"; return 0; }
 		if( o.label.equals( "PRLV Autoroutes du Sud de la Fra") ) { o.subCategory = "VEHICULE"; return 0; }
 		
 		if( o.label.equals( "VIR GENERATION")                   ) { o.comment = "remboursement"; o.subCategory = "SANTE"; return 0; }		
-		if( o.label.contains( "CPAM" ) ) {
+		if( o.label.contains( "CPAM" ) || o.label.contains( "C.P.A.M." )  ) {
 			if( o.amount > 0.0 ) {
 				o.subCategory = "SANTE";
 				o.comment = "remboursement";
@@ -75,21 +77,36 @@ public class ConverterFTN {
 			}
 		}
 		
+		if( o.label.contains( "GARICOITZ") ) {
+			o.comment = "dentiste";
+			o.subCategory = "SANTE";
+			return 0;
+		}
+		
+		if( o.label.contains( "BAPTISTE BACO") ) {
+			o.comment = "dentiste";
+			o.subCategory = "SANTE";
+			return 0;
+		}		
+		
 		if( o.label.equals( "PRLV ASG LARGENTE")                ) { o.comment = "prélèvement mensuel"; o.subCategory = "SCOLARITE"; return 0; }
 		
 		if( o.label.equals( "VIR MENSUEL FTN COMMUN vers PEL")  ) { o.comment = "PEL enfants"; o.subCategory = "MOUVEMENT INTERNE"; return 0; }
 		
-		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")       ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
-		if( o.label.equals( "CARTE SARL MIRENTXU TARNOS")          ) { o.comment = "légume tarnos";      o.subCategory = "ALIMENTATION"; return 0; }
 		
-		if( o.label.equals( "CARTE CARREFOUR TARNOS TARNOS")        ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
-		if( o.label.equals( "CARTE PICARD 0694 BOUCAU")             ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
-		if( o.label.contains("CARTE") && o.label.contains("OTSOKOP")){                                   o.subCategory = "ALIMENTATION"; return 0; }
-		if( o.label.equals( "CARTE VERGERS DE CAZAU TARNOS")        ) { o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
-		if( o.label.equals( "CARTE MA BOUTIQUE D'AS TARNOS")        ) { o.comment = "magasin chinois de TARNOS"; o.subCategory = "ALIMENTATION"; return 0; }
-		if( o.label.equals( "CARTE CARREFOUR TARNOS TARNOS")        ) {                                   o.subCategory = "ALIMENTATION"; return 0; }		
-		if( o.label.equals( "CARTE PICARD")                         ) {                                   o.subCategory = "ALIMENTATION"; return 0; }
-		if( o.label.contains("CARTE") && o.label.contains("EAU VIVE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
+		if( o.label.contains( "CARTE") )
+		{								
+			
+			if( o.label.contains("MIRENTXU") ) {                                 o.comment = "légume tarnos"; o.subCategory = "ALIMENTATION"; return 0; }
+			if( o.label.contains("VERGERS") ) {                                 o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
+			if( o.label.contains("INTERMARCHE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
+			if( o.label.contains("PICARD") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
+			if( o.label.contains("CARREFOUR") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
+			if( o.label.contains("EAU VIVE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
+			if( o.label.contains("E.LECLERC") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
+		}
+		
+		
 		
 		if( o.label.contains("CARTE") && o.label.contains("DAC")    ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
 		if( o.label.contains("CARTE") && o.label.contains("VL")     ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
