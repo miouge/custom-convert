@@ -56,11 +56,9 @@ public class ConverterFTN {
 		if( o.label.equals( "VIR MENSUEL REMB CREDIT PTZ")      ) { o.subCategory = "LOGEMENT"; return 0; }
 		
 		if( o.label.equals( "PRLV SGC" ) ) {
-			if( -60.0 < o.amount && o.amount < -20.0 ) {
-				o.subCategory = "LOGEMENT";
-				o.comment = "CAPB - eau";
-				return 0;
-			}
+			o.subCategory = "LOGEMENT";
+			o.comment = "CAPB - eau";
+			return 0;
 		}
 		
 		if( o.label.contains( "VIR" ) && o.label.contains( "epargne" ) ) { o.comment = "epargne"; o.subCategory = "MOUVEMENT INTERNE"; return 0; }
@@ -89,6 +87,12 @@ public class ConverterFTN {
 			return 0;
 		}		
 		
+		if( o.label.contains( "LAFARGUE BENEDI") ) {
+			o.comment = "medecin phr";
+			o.subCategory = "SANTE";
+			return 0;
+		}
+
 		if( o.label.equals( "PRLV ASG LARGENTE")                ) { o.comment = "prélèvement mensuel"; o.subCategory = "SCOLARITE"; return 0; }
 		
 		if( o.label.equals( "VIR MENSUEL FTN COMMUN vers PEL")  ) { o.comment = "PEL enfants"; o.subCategory = "MOUVEMENT INTERNE"; return 0; }
@@ -96,7 +100,7 @@ public class ConverterFTN {
 		
 		if( o.label.contains( "CARTE") )
 		{								
-			
+			if( o.label.contains("sas momay") ) {                                 o.comment = "Le Bon Marché - Bayonne"; o.subCategory = "ALIMENTATION"; return 0; }			
 			if( o.label.contains("MIRENTXU") ) {                                 o.comment = "légume tarnos"; o.subCategory = "ALIMENTATION"; return 0; }
 			if( o.label.contains("VERGERS") ) {                                 o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
 			if( o.label.contains("INTERMARCHE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
@@ -104,12 +108,19 @@ public class ConverterFTN {
 			if( o.label.contains("CARREFOUR") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
 			if( o.label.contains("EAU VIVE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
 			if( o.label.contains("E.LECLERC") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
+			if( o.label.contains("LE COUNIC") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
+			if( o.label.contains("ARTISAN BURGE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
+			if( o.label.contains("OTSOKOP") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
+			if( o.label.contains("COEUR DE FRAIS") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
+
+			if( o.label.contains("GWELEO") ) {                                 o.comment = "produits lentilles ZRV"; o.subCategory = "SANTE"; return 0; }			
 		}
-		
-		
 		
 		if( o.label.contains("CARTE") && o.label.contains("DAC")    ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
 		if( o.label.contains("CARTE") && o.label.contains("VL")     ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
+		
+		// CARTE LANESMOND PERIGNY	-77.50 €		Cinema CGR Tarnos	LOISIRS & CADEAUX
+		if( o.label.contains("CARTE") && o.label.contains("LANESMOND PERIGNY")    ) { o.comment = "Cinema CGR Tarnos"; o.subCategory = "LOISIRS & CADEAUX"; return 0; }
 
 		o.subCategory = "???";
 		return 1;
