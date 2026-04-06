@@ -106,18 +106,23 @@ public class ConverterFTN {
 			if( o.label.contains("INTERMARCHE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
 			if( o.label.contains("PICARD") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
 			if( o.label.contains("CARREFOUR") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
+			if( o.label.contains("ALDI") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
 			if( o.label.contains("EAU VIVE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
 			if( o.label.contains("E.LECLERC") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
 			if( o.label.contains("LE COUNIC") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
 			if( o.label.contains("ARTISAN BURGE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
 			if( o.label.contains("OTSOKOP") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
 			if( o.label.contains("COEUR DE FRAIS") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
-
-			if( o.label.contains("GWELEO") ) {                                 o.comment = "produits lentilles ZRV"; o.subCategory = "SANTE"; return 0; }			
+			if( o.label.contains("MAISON ROS") ) {                                 o.comment = "traiteur GVR"; o.subCategory = "ALIMENTATION"; return 0; }			
+			
+			if( o.label.contains("GWELEO") ) {                                 o.comment = "produits lentilles ZRV"; o.subCategory = "SANTE"; return 0; }
+			
 		}
-		
-		if( o.label.contains("CARTE") && o.label.contains("DAC")    ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
-		if( o.label.contains("CARTE") && o.label.contains("VL")     ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
+
+		if( o.label.contains("CARTE") && o.label.contains("PK PAULMY") ) { o.comment = "Parking GVR travail"; o.subCategory = "VEHICULE"; return 0; }
+		if( o.label.contains("CARTE") && o.label.contains("DAC")       ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
+		if( o.label.contains("CARTE") && o.label.contains("VL")        ) { o.comment = "essence"; o.subCategory = "VEHICULE"; return 0; }
+		if( o.label.equals( "CARTE RELAIS ANGLET BA ANGLET")  )          { o.comment = "essence Total Boulevard du BAB"; o.subCategory = "VEHICULE"; return 0; }
 		
 		// CARTE LANESMOND PERIGNY	-77.50 €		Cinema CGR Tarnos	LOISIRS & CADEAUX
 		if( o.label.contains("CARTE") && o.label.contains("LANESMOND PERIGNY")    ) { o.comment = "Cinema CGR Tarnos"; o.subCategory = "LOISIRS & CADEAUX"; return 0; }
@@ -293,7 +298,7 @@ public class ConverterFTN {
 
 			array[0] = EpochTool.convertToString( o.epoch, EpochTool.Format.STD_SLASH_DAY_FR );
 			array[1] = o.label;
-			array[2] = Double.toString(o.amount).replace('.', ',' );
+			array[2] = Double.toString(o.amount).replace(',', '.' );
 			array[3] = o.buyer;
 			array[4] = o.comment;
 			array[5] = o.subCategory;
