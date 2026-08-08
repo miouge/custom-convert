@@ -3,5 +3,21 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/modules"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/commons-beanutils-1.9.3.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/commons-cli-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/commons-collections-3.2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/commons-compress-1.9.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/commons-io-1.3.2.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/commons-lang3-3.6.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/commons-math-2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/commons-text-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/ini4j-0.5.4.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/itextpdf-5.5.9.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/opencsv-4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/pdfbox-2.0.23.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/pdfbox-tools-2.0.23.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/slf4j-api-1.7.30.jar"/>
+	<classpathentry kind="lib" path="C:/Java/jre8/lib/ext/slf4j-simple-1.7.30.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

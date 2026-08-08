@@ -60,6 +60,15 @@ public class ConverterFTN {
 			o.comment = "CAPB - eau";
 			return 0;
 		}
+				
+		if(	o.label.equals( "PRLV SGC" ) || o.label.equals( "PRLV SGC BAYONNE" ) )
+		{
+			o.subCategory = "LOGEMENT";
+			o.comment = "CAPB - eau";
+			return 0;
+		}
+
+		
 		
 		if( o.label.contains( "VIR" ) && o.label.contains( "epargne" ) ) { o.comment = "epargne"; o.subCategory = "MOUVEMENT INTERNE"; return 0; }
 		
@@ -75,11 +84,18 @@ public class ConverterFTN {
 			}
 		}
 		
+		if( o.label.contains( "BLANDIN BIARRITZ") ) {
+			o.comment = "dentiste phr";
+			o.subCategory = "SANTE";
+			return 0;
+		}
+
 		if( o.label.contains( "GARICOITZ") ) {
 			o.comment = "dentiste";
 			o.subCategory = "SANTE";
 			return 0;
 		}
+		
 		
 		if( o.label.contains( "BAPTISTE BACO") ) {
 			o.comment = "dentiste";
@@ -100,20 +116,20 @@ public class ConverterFTN {
 		
 		if( o.label.contains( "CARTE") )
 		{								
-			if( o.label.contains("sas momay") ) {                                 o.comment = "Le Bon Marché - Bayonne"; o.subCategory = "ALIMENTATION"; return 0; }			
-			if( o.label.contains("MIRENTXU") ) {                                 o.comment = "légume tarnos"; o.subCategory = "ALIMENTATION"; return 0; }
-			if( o.label.contains("VERGERS") ) {                                 o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION"; return 0; }
-			if( o.label.contains("INTERMARCHE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
-			if( o.label.contains("PICARD") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
-			if( o.label.contains("CARREFOUR") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
-			if( o.label.contains("ALDI") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
-			if( o.label.contains("EAU VIVE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
-			if( o.label.contains("E.LECLERC") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
-			if( o.label.contains("LE COUNIC") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
-			if( o.label.contains("ARTISAN BURGE") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
-			if( o.label.contains("OTSOKOP") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
-			if( o.label.contains("COEUR DE FRAIS") ) {                                 o.subCategory = "ALIMENTATION"; return 0; }
-			if( o.label.contains("MAISON ROS") ) {                                 o.comment = "traiteur GVR"; o.subCategory = "ALIMENTATION"; return 0; }			
+			if( o.label.contains("sas momay") ) {                                 o.comment = "Le Bon Marché - Bayonne"; o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }			
+			if( o.label.contains("MIRENTXU") ) {                                 o.comment = "légume tarnos"; o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
+			if( o.label.contains("VERGERS") ) {                                 o.comment = "verget de cazaubon"; o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
+			if( o.label.contains("INTERMARCHE") ) {                                 o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
+			if( o.label.contains("PICARD") ) {                                 o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
+			if( o.label.contains("CARREFOUR") ) {                                 o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
+			if( o.label.contains("ALDI") ) {                                 o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
+			if( o.label.contains("EAU VIVE") ) {                                 o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
+			if( o.label.contains("E.LECLERC") ) {                                 o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
+			if( o.label.contains("LE COUNIC") ) {                                 o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
+			if( o.label.contains("ARTISAN BURGE") ) {                                 o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
+			if( o.label.contains("OTSOKOP") ) {                                 o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
+			if( o.label.contains("COEUR DE FRAIS") ) {                                 o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
+			if( o.label.contains("MAISON ROS") ) {                                 o.comment = "traiteur GVR"; o.subCategory = "ALIMENTATION & HYGIENE"; return 0; }
 			
 			if( o.label.contains("GWELEO") ) {                                 o.comment = "produits lentilles ZRV"; o.subCategory = "SANTE"; return 0; }
 			
@@ -125,7 +141,9 @@ public class ConverterFTN {
 		if( o.label.equals( "CARTE RELAIS ANGLET BA ANGLET")  )          { o.comment = "essence Total Boulevard du BAB"; o.subCategory = "VEHICULE"; return 0; }
 		
 		// CARTE LANESMOND PERIGNY	-77.50 €		Cinema CGR Tarnos	LOISIRS & CADEAUX
-		if( o.label.contains("CARTE") && o.label.contains("LANESMOND PERIGNY")    ) { o.comment = "Cinema CGR Tarnos"; o.subCategory = "LOISIRS & CADEAUX"; return 0; }
+		if( o.label.contains("CARTE") && o.label.contains("LANESMOND PERIGNY")    ) { o.comment = "Cinema CGR Tarnos" ; o.subCategory = "LOISIRS & CADEAUX"; return 0; }
+		if( o.label.contains("CARTE") && o.label.contains("NETFLIX")    )           { o.comment = "Abonnement Netflix"; o.subCategory = "LOISIRS & CADEAUX"; return 0; }
+
 
 		o.subCategory = "???";
 		return 1;
